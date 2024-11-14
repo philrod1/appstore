@@ -3,7 +3,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const mongoose = require('mongoose');
-const index = require('./routes/index'); // Adjust the path as necessary
+const indexRouter = require('./routes/index');
+const addRouter = require('./routes/add');
+const ricRouter = require('./routes/ric');
+const xappRouter = require('./routes/xapp');
 const { mongoURI } = require('./config');
 
 const app = express();
@@ -12,6 +15,13 @@ const port = process.env.PORT || 3000;
 // Set the view engine to EJS
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Configure static file serving
+app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+  console.log('Request URL:', req.url);
+  next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +43,10 @@ mongoose.connect(mongoURI)
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/', index);
+app.use('/', indexRouter);
+app.use('/add', addRouter);
+app.use('/ric', ricRouter);
+app.use('/xapp', xappRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {

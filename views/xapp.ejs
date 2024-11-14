@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XApp Details</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>xApp Details</h1>
+        <div class="xapp-card">
+            <img src="data:image/png;base64,<%= xapp.icon %>" alt="<%= xapp.name %> icon" />
+            <div class="xapp-details">
+                <h2><%= xapp.name %> (v<%= xapp.version %>)</h2>
+                <p><strong>Description:</strong> <%= xapp.description %></p>
+                <h3>README:</h3>
+                <div class="markdown-content">
+                    <%- readmeHtml %>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="window.location.href='/'">Back to List</button>
+    </div>
+</body>
+</html>

@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-  <h1>Submit Git URL</h1>
-  <form action="/add" method="POST">
-    <label for="gitUrl">Git URL:</label>
-    <input type="text" id="gitUrl" name="gitUrl" required>
-    <button type="submit">Submit</button>
-  </form>
-
-  <h2>Available XApps</h2>
-  <ul>
-    <% xApps.forEach(app => { %>
-      <li>
-        <h3><%= app.name %></h3>
-        <img src="data:image/png;base64,<%= app.icon %>" alt="<%= app.name %> icon" />
-      </li>
-    <% }) %>
-  </ul>
+    <div class="container">
+        <button class="add-button" onclick="window.location.href='/add'">Add xApp Repo</button>
+        <button class="add-button" onclick="window.location.href='/ric'">RICs</button>
+        <h2>Available xApps</h2>
+        <ul class="xapp-grid">
+            <% xApps.forEach(app => { %>
+                <li class="xapp-card" onclick="window.location.href='/xapp/<%= app.name %>/<%= app.version %>'">
+                    <img src="data:image/png;base64,<%= app.icon %>" alt="<%= app.name %> icon" />
+                    <h3><%= app.name %>:<%= app.version %></h3>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
 </body>
 </html>

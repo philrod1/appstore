@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIC List</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="ric-container">
+    <form class="ric-form" action="/ric/add" method="POST">
+      <input type="text" name="ric-ip" placeholder="Enter RIC IP address" required>
+      <button type="submit" class="btn btn-primary">Add RIC</button>
+    </form>
+    <h1>RIC List</h1>
+    <ul class="ric-list">
+      <% rics.forEach(function(ric) { %>
+        <li class="ric-card">
+          <strong>RIC Address:</strong>
+          <div class="ric-address"><%= ric.address %></div>
+  
+          <div class="status-row">
+              <div class="status-item">
+                  <span class="status-dot <%= ric.status.isAlive ? 'status-green' : 'status-red' %>"></span>
+                  <span class="status-label">Alive</span>
+              </div>
+              
+              <div class="status-item">
+                  <span class="status-dot <%= ric.status.isReady ? 'status-green' : 'status-red' %>"></span>
+                  <span class="status-label">Ready</span>
+              </div>
+              
+              <div class="status-item">
+                  <span class="status-dot <%= ric.status.dmsReady ? 'status-green' : 'status-red' %>"></span>
+                  <span class="status-label">DMS</span>
+              </div>
+              
+              <div class="status-item">
+                  <span class="status-dot <%= 
+                      ric.status.e2Status === 2 ? 'status-green' : 
+                      ric.status.e2Status === 1 ? 'status-yellow' : 
+                      'status-red' 
+                  %>"></span>
+                  <span class="status-label">E2</span>
+              </div>
+          </div>
+      
+          <div class="ric-buttons">
+              <button class="btn btn-danger" onclick="location.href='/ric/delete/<%= ric.id %>'">Delete</button>
+              <button class="btn btn-secondary" onclick="location.href='/ric/<%= ric.id %>'">Show</button>
+          </div>
+      </li>
+      <% }); %>
+    </ul>
+  </div>
+</body>
+</html>

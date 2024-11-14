@@ -60,6 +60,40 @@ module.exports = {
       }
       throw error;
     }
+  },
+
+  getRicStatus: async (ric) => {
+    try {
+      const response = await axios.get(`http://${ric.address}:3000/status`);
+      return {
+        isAlive: response.data.isAlive,
+        isReady: response.data.isReady,
+        dmsReady: response.data.dmsReady,
+        e2Status: response.data.e2Status
+      };
+    } catch (error) {
+      return {
+        isAlive: false,
+        isReady: false,
+        dmsReady: false,
+        e2Status: 'unknown'
+      };
+    }
+  },
+  
+  getXappStatus: async (ric, xapp) => {
+    try {
+      const response = await axios.get(`http://${ric.address}:3000/xapp/${xapp.name}/${xapp.version}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return {
+        onboarded: false,
+        installed: false,
+        started: false,
+        ready: false
+      };
+    }
   }
 
 }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Repository</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="container">
+    <% if (error) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= error.message %>
+        </div>
+    <% } else { %>
+        <h1>xApp Details</h1>
+        <p><%- name %>:<%- version %></p>
+        <div class="markdown-dark">
+            <%- content %>
+        </div>
+        <form action="/add/onboard" method="POST">
+            <input type="hidden" name="gitUrl" value="<%= gitUrl %>">
+            <button type="submit" class="btn btn-primary">Onboard XApp</button>
+        </form>
+    <% } %>
+  </div>
+</body>
+</html>

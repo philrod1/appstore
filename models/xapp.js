@@ -11,16 +11,6 @@ const xAppSchema = new Schema({
   readme:      { type: String, required: true  } 
 });
 
-// Define methods for the schema
-xAppSchema.methods.getSummary = function() {
-  return `${this.name} (v${this.version}): ${this.description}`;
-};
-
-xAppSchema.methods.updateVersion = function(newVersion) {
-  this.version = newVersion;
-  return this.save();
-};
-
 // Create the model from the schema
 const XApp = mongoose.model('XApp', xAppSchema);
 

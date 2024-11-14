@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIC Details</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <div class="ric-container">
+    <h1>RIC Details</h1>
+    <div class="ric-card">
+      <strong>RIC Address:</strong>
+      <div class="ric-address"><%= ric.address %></div>
+
+      <div class="status-row">
+        <div class="status-item">
+          <span><%= ric.status.isAlive ? '🟢' : '🔴' %></span>
+          <span class="status-label">Alive</span>
+        </div>
+        
+        <div class="status-item">
+          <span><%= ric.status.isReady ? '🟢' : '🔴' %></span>
+          <span class="status-label">Ready</span>
+        </div>
+        
+        <div class="status-item">
+          <span><%= ric.status.dmsReady ? '🟢' : '🔴' %></span>
+          <span class="status-label">DMS</span>
+        </div>
+        
+        <div class="status-item">
+          <span><%= 
+              ric.status.e2Status === 2 ? '🟢' : 
+              ric.status.e2Status === 1 ? '🟡' : 
+              '🔴' 
+          %></span>
+          <span class="status-label">E2</span>
+        </div>
+      </div>
+
+      <h2>Associated XApps</h2>
+      <ul class="xapp-list">
+        <% xapps.forEach(function(xapp) { %>
+          <li class="xapp-card" onclick="window.location.href='/ric/<%= ric._id %>/<%= xapp.deployment %>'">
+            <img src="data:image/png;base64,<%= xapp.icon %>" alt="<%= xapp.name %> icon" />
+            <div class="xapp-card-content">
+              <div>
+                <strong>Name:</strong> <span><%= xapp.name %></span>
+                <span><%= xapp.onboarded ? '🟢' : '🔴' %></span> Onboarded
+                <span><%= xapp.installed ? '🟢' : '🔴' %></span> Installed
+              </div>
+              <div>
+                <strong>Version:</strong> <span><%= xapp.version %></span>
+                <span><%= xapp.started ? '🟢' : '🔴' %></span> Started
+                <span><%= xapp.ready ? '🟢' : '🔴' %></span> Ready
+              </div>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+
+      <div class="ric-buttons">
+        <button class="btn btn-primary" onclick="location.href='/ric'">Back to List</button>
+        <button class="btn btn-danger" onclick="location.href='/ric/delete/<%= ric.id %>'">Delete</button>
+        <button class="btn btn-secondary" onclick="openModal()">Add XApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add XApp Modal -->
+  <div id="addXAppModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h5 class="modal-title">Add XApp</h5>
+      <form action="/ric/<%= ric.id %>/add-xapp" method="POST">
+        <div class="form-group">
+          <label for="xappId">XApp</label>
+          <select class="form-control" id="xappId" name="xappId" required>
+            <% availableXApps.forEach(function(xapp) { %>
+              <option value="<%= xapp._id %>"><%= xapp.name %> (v<%= xapp.version %>)</option>
+            <% }) %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add XApp</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('addXAppModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('addXAppModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('addXAppModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

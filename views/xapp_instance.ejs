@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XApp Instance Details</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>XApp Instance Details</h1>
+        <div class="xapp-instance-card">
+            <img src="data:image/png;base64,<%= xapp.icon %>" alt="<%= xapp.name %> icon" />
+            <div class="xapp-instance-details">
+                <h2><%= xapp.name %> (v<%= xapp.version %>)</h2>
+                <p><strong>Description:</strong> <%= xapp.description %></p>
+                <h3>README</h3>
+                <div class="markdown-content">
+                    <%- readmeHtml %>
+                </div>
+                <h3>Status</h3>
+                <p><strong>Onboarded:</strong> <%= xappStatus.onboarded ? '🟢' : '🔴' %></p>
+                <p><strong>Installed:</strong> <%= xappStatus.installed ? '🟢' : '🔴' %></p>
+                <p><strong>Started:</strong> <%= xappStatus.started ? '🟢' : '🔴' %></p>
+                <p><strong>Ready:</strong> <%= xappStatus.ready ? '🟢' : '🔴' %></p>
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="window.location.href='/rics'">Back to RIC</button>
+    </div>
+</body>
+</html>
