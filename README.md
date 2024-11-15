@@ -6,6 +6,10 @@ This repository contains the source code for the AppStore application.
 
 The AppStore is a platform that allows users to browse, download, and manage xApps.
 
+## WARNING!
+
+This web app is just a useful tool/PoC for my own use.  It has no regard for safety and/or security and should be considered unfit for any purpose.
+
 ## Installation
 
 To install the AppStore application, follow these steps:
