@@ -8,39 +8,32 @@
 </head>
 <body>
   <div class="ric-container">
-    <form class="ric-form" action="/ric/add" method="POST">
-      <input type="text" name="ric-ip" placeholder="Enter RIC IP address" required>
-      <button type="submit" class="btn btn-primary">Add RIC</button>
-    </form>
+    <button class="btn btn-primary" onclick="location.href='/'">Store</button>
     <h1>RIC List</h1>
     <ul class="ric-list">
       <% rics.forEach(function(ric) { %>
         <li class="ric-card">
           <strong>RIC Address:</strong>
-          <div class="ric-address"><%= ric.address %></div>
+          <span class="ric-address"><%= ric.address %></span>
   
           <div class="status-row">
-              <div class="status-item">
-                  <span class="status-dot <%= ric.status.isAlive ? 'status-green' : 'status-red' %>"></span>
+              <div class="status-item <%= ric.status.isAlive ? 'status-green' : 'status-red' %>">
                   <span class="status-label">Alive</span>
               </div>
               
-              <div class="status-item">
-                  <span class="status-dot <%= ric.status.isReady ? 'status-green' : 'status-red' %>"></span>
+              <div class="status-item <%= ric.status.isReady ? 'status-green' : 'status-red' %>">
                   <span class="status-label">Ready</span>
               </div>
               
-              <div class="status-item">
-                  <span class="status-dot <%= ric.status.dmsReady ? 'status-green' : 'status-red' %>"></span>
+              <div class="status-item <%= ric.status.dmsReady ? 'status-green' : 'status-red' %>">
                   <span class="status-label">DMS</span>
               </div>
               
-              <div class="status-item">
-                  <span class="status-dot <%= 
-                      ric.status.e2Status === 2 ? 'status-green' : 
-                      ric.status.e2Status === 1 ? 'status-yellow' : 
-                      'status-red' 
-                  %>"></span>
+              <div class="status-item <%= 
+                  ric.status.e2Status === 2 ? 'status-green' : 
+                  ric.status.e2Status === 1 ? 'status-yellow' : 
+                  'status-red' 
+              %>">
                   <span class="status-label">E2</span>
               </div>
           </div>
@@ -49,9 +42,40 @@
               <button class="btn btn-danger" onclick="location.href='/ric/delete/<%= ric.id %>'">Delete</button>
               <button class="btn btn-secondary" onclick="location.href='/ric/<%= ric.id %>'">Show</button>
           </div>
-      </li>
+        </li>
       <% }); %>
     </ul>
+
+    <button class="btn btn-primary" onclick="openModal()">Add RIC</button>
+
+    <!-- Add RIC Modal -->
+    <div id="addRicModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h5 class="modal-title">Add RIC</h5>
+        <form class="ric-form" action="/ric/add" method="POST">
+          <input type="text" name="ric-ip" placeholder="Enter RIC IP address" required>
+          <button type="submit" class="btn btn-primary">Add RIC</button>
+        </form>
+      </div>
+    </div>
   </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('addRicModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('addRicModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('addRicModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
 </body>
 </html>

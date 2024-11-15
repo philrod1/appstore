@@ -187,6 +187,11 @@ h2 {
   gap: 8px;
 }
 
+.status-label {
+  font-size: 14px;
+  color: #666;
+}
+
 .status-dot {
   width: 12px;
   height: 12px;
@@ -194,21 +199,16 @@ h2 {
   display: inline-block;
 }
 
-.status-label {
-  font-size: 14px;
-  color: #666;
+.status-red::before {
+    content: '🔴';
 }
 
-.status-green {
-  background-color: #22c55e;
+.status-yellow::before {
+    content: '🟡';
 }
 
-.status-red {
-  background-color: #dc2626;
-}
-
-.status-yellow {
-  background-color: #eab308;
+.status-green::before {
+    content: '🟢';
 }
 
 /* Modal Styles */

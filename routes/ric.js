@@ -74,7 +74,7 @@ router.post('/add', async (req, res) => {
 
   const newRic = new RIC({ address: ricIp, name: `RIC-${ricIp}` });
   await newRic.save();
-  res.redirect('/rics');
+  res.redirect('/ric');
 });
 
 // Update a ric by ID
@@ -108,23 +108,21 @@ router.post('/:id/add-xapp', async (req, res, next) => {
   }
 });
 
-router.get('/:id/:deployment', async (req, res, next) => {
-  console.log(req.params);
-  
+router.get('/:id/:deployment/:xapp', async (req, res, next) => {
   try {
-    const ric = await RIC.find({ _id: req.params.id });
-    
+    const ric = await RIC.findById(req.params.id);
     if (!ric) {
       return res.status(404).send('RIC not found');
     }
-
-    const data = await axios.post(`http://${ric.address}:3000/description`, {
+    const url = `http://${ric.address}:3000/description`;
+    const payload = {
       dep: req.params.deployment,
       ns: 'ricxapp'
-    });
-    console.log("Data: ", data);
-    
-    res.render('xapp', { xapp: xApp});
+    };
+    const data = await axios.post(url, payload);
+    const appLabelLine = data.data.split('\n').find(line => line.startsWith('Labels:'));
+    const appLabel = appLabelLine ? appLabelLine.split('=')[1].trim() : 'N/A';
+    res.render('deployment', { description: data.data, ric: ric, deployment: appLabel, xapp: req.params.xapp });
   } catch (error) {
     next(error);
   }

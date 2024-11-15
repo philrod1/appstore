@@ -8,33 +8,31 @@
 </head>
 <body>
   <div class="ric-container">
+    <button class="btn btn-primary" onclick="location.href='/'">Store</button>
+    <button class="btn btn-primary" onclick="location.href='/ric'">RICs</button>
     <h1>RIC Details</h1>
     <div class="ric-card">
-      <strong>RIC Address:</strong>
-      <div class="ric-address"><%= ric.address %></div>
+      <strong>RIC Address: </strong><span class="ric-address"><%= ric.address %></span>
+      
 
       <div class="status-row">
-        <div class="status-item">
-          <span><%= ric.status.isAlive ? '🟢' : '🔴' %></span>
+        <div class="status-item <%= ric.status.isAlive ? 'status-green' : 'status-red' %>">
           <span class="status-label">Alive</span>
         </div>
         
-        <div class="status-item">
-          <span><%= ric.status.isReady ? '🟢' : '🔴' %></span>
+        <div class="status-item <%= ric.status.isReady ? 'status-green' : 'status-red' %>">
           <span class="status-label">Ready</span>
         </div>
         
-        <div class="status-item">
-          <span><%= ric.status.dmsReady ? '🟢' : '🔴' %></span>
+        <div class="status-item <%= ric.status.dmsReady ? 'status-green' : 'status-red' %>">
           <span class="status-label">DMS</span>
         </div>
         
-        <div class="status-item">
-          <span><%= 
-              ric.status.e2Status === 2 ? '🟢' : 
-              ric.status.e2Status === 1 ? '🟡' : 
-              '🔴' 
-          %></span>
+        <div class="status-item <%= 
+            ric.status.e2Status === 2 ? 'status-green' : 
+            ric.status.e2Status === 1 ? 'status-yellow' : 
+            'status-red' 
+        %>">
           <span class="status-label">E2</span>
         </div>
       </div>
@@ -42,18 +40,18 @@
       <h2>Associated XApps</h2>
       <ul class="xapp-list">
         <% xapps.forEach(function(xapp) { %>
-          <li class="xapp-card" onclick="window.location.href='/ric/<%= ric._id %>/<%= xapp.deployment %>'">
+          <li class="xapp-card" onclick="window.location.href='/ric/<%= ric._id %>/<%= xapp.deployment %>/<%= xapp.name %>:<%= xapp.version %>'">
             <img src="data:image/png;base64,<%= xapp.icon %>" alt="<%= xapp.name %> icon" />
             <div class="xapp-card-content">
               <div>
                 <strong>Name:</strong> <span><%= xapp.name %></span>
-                <span><%= xapp.onboarded ? '🟢' : '🔴' %></span> Onboarded
-                <span><%= xapp.installed ? '🟢' : '🔴' %></span> Installed
+                <span class="status-item <%= xapp.onboarded ? 'status-green' : 'status-red' %>"></span> Onboarded
+                <span class="status-item <%= xapp.installed ? 'status-green' : 'status-red' %>"></span> Installed
               </div>
               <div>
                 <strong>Version:</strong> <span><%= xapp.version %></span>
-                <span><%= xapp.started ? '🟢' : '🔴' %></span> Started
-                <span><%= xapp.ready ? '🟢' : '🔴' %></span> Ready
+                <span class="status-item <%= xapp.started ? 'status-green' : 'status-red' %>"></span> Started
+                <span class="status-item <%= xapp.ready ? 'status-green' : 'status-red' %>"></span> Ready
               </div>
             </div>
           </li>
@@ -61,7 +59,6 @@
       </ul>
 
       <div class="ric-buttons">
-        <button class="btn btn-primary" onclick="location.href='/ric'">Back to List</button>
         <button class="btn btn-danger" onclick="location.href='/ric/delete/<%= ric.id %>'">Delete</button>
         <button class="btn btn-secondary" onclick="openModal()">Add XApp</button>
       </div>
