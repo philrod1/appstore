@@ -83,8 +83,16 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete a ric by ID
-router.get('/delete/:id', (req, res) => {
-  res.send(`Delete ric with ID ${req.params.id}`);
+router.get('/delete/:id', async (req, res, next) => {
+  try {
+    const ric = await RIC.findByIdAndDelete(req.params.id);
+    if (!ric) {
+      return res.status(404).send('RIC not found');
+    }
+    res.redirect('/ric');
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Add an xapp to a ric
