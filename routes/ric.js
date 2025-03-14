@@ -107,7 +107,7 @@ router.post('/:id/add-xapp', async (req, res, next) => {
     if (!xapp) {
       return res.status(404).send('XApp not found');
     }
-    await axios.post(`http://${ric.address}:3000/deploy`, {
+    await axios.post(`http://${ric.address}:3003/deploy`, {
       "git-url": xapp.gitUrl
     });
     res.redirect(`/ric/${ric._id}`);
@@ -122,7 +122,7 @@ router.get('/:id/:deployment/:xapp', async (req, res, next) => {
     if (!ric) {
       return res.status(404).send('RIC not found');
     }
-    const url = `http://${ric.address}:3000/description`;
+    const url = `http://${ric.address}:3003/description`;
     const payload = {
       dep: req.params.deployment,
       ns: 'ricxapp'
