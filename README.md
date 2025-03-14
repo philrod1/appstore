@@ -16,7 +16,7 @@ To install the AppStore application, follow these steps:
 
 1. Clone the repository:
   ```bash
-  git clone https://github.com/yourusername/appstore.git
+  git clone https://github.com/philrod1/appstore.git
   ```
 2. Navigate to the project directory:
   ```bash
