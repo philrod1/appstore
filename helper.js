@@ -64,7 +64,7 @@ module.exports = {
 
   getRicStatus: async (ric) => {
     try {
-      const response = await axios.get(`http://${ric.address}:3000/status`);
+      const response = await axios.get(`http://${ric.address}:3003/status`);
       return {
         isAlive: response.data.isAlive,
         isReady: response.data.isReady,
@@ -83,7 +83,7 @@ module.exports = {
   
   getXappStatus: async (ric, xapp) => {
     try {
-      const response = await axios.get(`http://${ric.address}:3000/xapp/${xapp.name}/${xapp.version}`);
+      const response = await axios.get(`http://${ric.address}:3003/xapp/${xapp.name}/${xapp.version}`);
       return response.data;
     } catch (error) {
       console.error(error);
